@@ -1,0 +1,1139 @@
+    <title>Страница экскурсии</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        /* Импорт шрифта Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Общие стили для шрифта */
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Градиент для блока цен */
+        .price-gradient-cat {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Стили для контейнеров изображений с эффектом увеличения фона при наведении */
+        .image-container-cat {
+            border-radius: 20px;
+            overflow: hidden; /* Обрезаем изображение, чтобы оно не выходило за пределы контейнера */
+            position: relative;
+            background-size: cover; /* Заполнение контейнера изображением */
+            background-position: center; /* Центрирование изображения */
+            transition: background-size 0.3s ease-in-out; /* Плавное увеличение фона */
+        }
+
+        .image-container-cat:hover {
+            background-size: 110%; /* Увеличение фона при наведении */
+        }
+
+        /* Стили для кнопки "Смотреть все фото" */
+        .view-all-photos-button-cat {
+            background-color: rgba(255, 255, 255, 0.3); /* Прозрачность 30% */
+            border-radius: 30px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .view-all-photos-button-cat:hover {
+            background-color: rgba(255, 255, 255, 0.05); /* Прозрачность 5% при наведении */
+        }
+
+        /* Стили для блока описания и рассрочки с тенью */
+        .shadow-block-cat {
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили для кнопки "Забронировать сейчас" при наведении */
+        .book-now-button-cat {
+            transition: transform 0.3s ease-in-out; /* Плавное поднятие кнопки */
+        }
+
+        .book-now-button-cat:hover {
+            transform: translateY(-2px); /* Поднимаем кнопку на 2px вверх */
+        }
+
+        /* Desktop grid for images block */
+        .gallery-grid-cat {
+            display: grid;
+            grid-template-columns: 480px 280px; /* 1st col for main image, 2nd col for small images */
+            grid-template-rows: 300px 160px; /* 1st row for top small, 2nd row for bottom small */
+            gap: 20px; /* Gap between grid items */
+        }
+
+        /* Explicit dimensions and positioning for desktop grid items */
+        .main-image-cat {
+            grid-column: 1; /* Place in the first column */
+            grid-row: 1 / span 2; /* Span both rows */
+            width: 480px; /* Explicit width */
+            height: 480px; /* Explicit height (300 + 20 + 160 = 480) */
+        }
+
+        .small-image-top-cat {
+            grid-column: 2; /* Place in the second column */
+            grid-row: 1; /* Place in the first row */
+            width: 280px; /* Explicit width */
+            height: 300px; /* Explicit height */
+        }
+
+        .small-image-bottom-cat {
+            grid-column: 2; /* Place in the second column */
+            grid-row: 2; /* Place in the second row */
+            width: 280px; /* Explicit width */
+            height: 160px; /* Explicit height */
+        }
+
+        /* Gradient for AI Recommend block */
+        .ai-recommend-gradient-cat {
+            background: linear-gradient(to right, #F18FF1, #F4586F);
+        }
+
+        /* AI Icon styling */
+        .ai-icon-circle-cat {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white for the circle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-icon-circle-cat svg {
+            width: 30px;
+            height: 30px;
+            color: white; /* White color for the AI icon itself */
+        }
+
+        /* Стили для ссылки "Смотреть все отзывы" */
+        .view-all-reviews-link-cat {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Выравнивание справа */
+            color: #667EEA;
+            font-size: 16px;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .view-all-reviews-link-cat:hover {
+            transform: translateX(-5px); /* Смещение влево при наведении */
+        }
+
+        .view-all-reviews-link-cat .arrow-icon-cat {
+            opacity: 0; /* Скрываем стрелку по умолчанию */
+            margin-left: 5px;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .view-all-reviews-link-cat:hover .arrow-icon-cat {
+            opacity: 1; /* Показываем стрелку при наведении */
+        }
+
+
+        /* Мобильная адаптация */
+        @media (max-width: 1023px) { /* lg breakpoint */
+            .main-content-cat {
+                flex-direction: column; /* Элементы в колонку на мобильных устройствах */
+                align-items: center; /* Центрирование по горизонтали */
+            }
+
+            .images-block-cat {
+                width: 100%; /* Полная ширина для блока изображений */
+                margin-right: 0; /* Убираем отступ справа */
+                margin-bottom: 20px; /* Добавляем отступ снизу */
+            }
+
+            .price-block-cat {
+                width: 100%; /* Полная ширина для блока цен */
+                margin-left: 0; /* Убираем отступ слева */
+                margin-bottom: 20px; /* Добавляем отступ снизу */
+            }
+
+            .description-block-cat {
+                width: 100%; /* Полная ширина для блока описания */
+                margin-top: 20px; /* Отступ сверху */
+            }
+
+            .installment-block-cat {
+                width: 100%; /* Полная ширина для блока рассрочки */
+                margin-top: 20px; /* Отступ сверху */
+                margin-left: 0; /* Убираем отступ слева */
+            }
+
+            .gallery-grid-cat {
+                grid-template-columns: 1fr; /* Одна колонка для мобильных */
+                grid-template-rows: auto auto auto; /* Автоматическая высота для строк */
+                gap: 16px; /* Увеличиваем отступ между элементами */
+            }
+
+            .main-image-cat,
+            .small-image-top-cat,
+            .small-image-bottom-cat {
+                grid-column: auto; /* Сброс позиционирования для мобильных */
+                grid-row: auto; /* Сброс позиционирования для мобильных */
+                width: 100% !important; /* Полная ширина для всех изображений */
+                height: 250px !important; /* Единая высота для мобильных изображений */
+            }
+
+            .ai-recommend-text-cat {
+                width: 100% !important; /* Полная ширина для текста ИИ рекомендаций */
+            }
+
+            .ai-recommend-weather-crowd-cat {
+                width: 100% !important; /* Полная ширина для блока погоды/загруженности */
+                margin-top: 16px; /* Отступ сверху на мобильных */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-start lg:justify-center">
+        <div class="flex flex-col items-center lg:items-start w-full lg:w-auto">
+            <div class="images-block-cat w-full" style="max-width: 780px;">
+                <div class="gallery-grid-cat">
+                    <div class="main-image-cat image-container-cat relative" style="background-image: url('https://placehold.co/480x480/A0A0A0/FFFFFF?text=Main+Image');">
+                        <a href="#all-photos" class="absolute bottom-5 left-5 view-all-photos-button-cat">
+                            Смотреть все фото
+                        </a>
+                    </div>
+
+                    <div class="small-image-top-cat image-container-cat" style="background-image: url('https://placehold.co/280x300/B0B0B0/FFFFFF?text=Small+Image+1');"></div>
+
+                    <div class="small-image-bottom-cat image-container-cat" style="background-image: url('https://placehold.co/280x160/C0C0C0/FFFFFF?text=Small+Image+2');"></div>
+                </div>
+            </div>
+
+            <div class="description-block-cat bg-white rounded-2xl p-6 shadow-block-cat mt-10 w-full" style="max-width: 780px; margin-top: 40px;">
+                <h2 class="text-lg font-bold mb-4" style="color: #667EEA;">Описание экскурсии</h2>
+                <p id="tour-description-text-cat" class="text-base mb-4" style="color: #6A6A6A;">
+                    Добро пожаловать в удивительный мир «Нонг Нуч Тропический Сад» — самого крупного садово-паркового комплекса, который станет волшебным путеводителем в уникальные уголки природы и культуры Таиланда. Окунитесь в великолепие оранжерей с орхидеями и кактусами, перенеситесь в эпоху Версаля с его великолепными садами, испытайте атмосферу загадочного Стоунхенджа и оцените магию мини-зоопарка.
+                    Наши программы экскурсий предлагают разнообразные варианты: осмотр шедевров сада без участия в двух шоу или полный погружение с двумя уникальными представлениями — национальным и шоу слонов. Наши русскоязычные гиды окажут вам качественное сопровождение, расскажут увлекательные факты и поделятся тайским гостеприимством.
+                    Для ценителей эксклюзивных впечатлений предусмотрена опция VIP: вас ожидает изысканный обед, захватывающее шоу с участием змей и захватывающая поездка на открытом паровозике по парку. Ощутите вкус приключений в «Нонг Нуч Тропическом Саде» — вашем уникальном билете в мир удовольствий и открытий!
+                </p>
+            </div>
+
+            <div class="ai-recommend-block-cat ai-recommend-gradient-cat rounded-2xl p-6 mt-5 w-full flex flex-col lg:flex-row items-center lg:items-start justify-between" style="max-width: 780px; margin-top: 20px;">
+                <div class="flex items-center lg:items-start mb-4 lg:mb-0 lg:w-3/4">
+                    <div class="ai-icon-circle-cat mr-4 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM272 192a64 64 0 1 1 0 128 64 64 0 1 1 0-128zm-96 64a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zm192 64a64 64 0 1 1 0-128 64 64 0 1 1 0 128zM96 256a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm384 0a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-1">Изи ИИ рекомендует</h3>
+                        <p class="text-sm text-white ai-recommend-text-cat" style="width: 440px;">
+                            Основываясь на погодных условиях и дне недели, лучшее время для посещения сегодня - утром до 11:00. Возьмите солнцезащитный крем и удобную обувь!
+                        </p>
+                    </div>
+                </div>
+                <div class="ai-recommend-weather-crowd-cat flex flex-col items-end text-right lg:w-1/4" style="width: 160px;">
+                    <div class="flex items-center text-white text-sm mb-1">
+                        <i id="weather-icon-cat" class="fas fa-sun mr-2"></i> <span id="temperature-cat">--°C</span>
+                        <span id="weather-description-cat" class="ml-1">Загрузка...</span>
+                    </div>
+                    <div class="flex items-center text-white text-sm">
+                        <i class="fas fa-users mr-2"></i>
+                        <span>Низкая загруженность с 10.00 до 12.00 и с 14.00 до 16.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center lg:items-start w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-10" style="margin-left: 40px;">
+            <div class="price-block-cat w-full">
+                <div class="price-gradient-cat rounded-2xl p-6 text-white sticky top-24">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Nong Nooch Tropical Garden</h3>
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="flex text-yellow-300">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm">4.8 (16 отзывов)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white bg-opacity-20 rounded-xl p-4 mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm">Взрослый</span>
+                            <span class="text-xl font-bold">$25.00</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm">Детский (4-12 лет)</span>
+                            <span class="text-xl font-bold">$20.00</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white bg-opacity-20 rounded-xl p-4 mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm">Отправление</span>
+                            <span class="font-medium">9:00 AM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm">Возвращение</span>
+                            <span class="font-medium">3:00 PM</span>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-white text-purple-600 font-bold py-4 rounded-full hover:bg-gray-100 transition book-now-button-cat mb-4">
+                        Забронировать сейчас
+                    </button>
+                </div>
+            </div>
+
+            <div class="installment-block-cat bg-white rounded-2xl p-6 shadow-block-cat mt-10 w-full" style="width: 360px; height: 240px; background-color: #FFF7BC; margin-top: 40px;">
+                <h3 class="text-xl font-bold text-center mb-4" style="color: #00439A;">Рассрочка 0%</h3>
+                <div class="bg-white rounded-xl p-3 flex items-center justify-center mb-4 mx-auto" style="width: 320px; height: 55px; border-radius: 15px;">
+                    <span class="text-lg text-center" style="color: #00439A;"><span class="font-bold">до 6 месяцев</span> без переплат</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 flex items-center justify-center mb-4 mx-auto" style="width: 320px; height: 55px; border-radius: 15px;">
+                    <span class="text-lg text-center" style="color: #00439A;">от 833 ₽/мес через ТБанк</span>
+                </div>
+                <p class="text-sm text-center" style="color: #6A6A6A;">Одобрение за 2 минуты</p>
+            </div>
+
+            <div class="review-block-cat bg-white rounded-2xl p-6 shadow-block-cat mt-10 w-full" style="width: 360px; margin-top: 40px;">
+                <div class="flex items-center mb-2"> <div class="flex text-yellow-300">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="text-base font-bold ml-5" style="color: #464646;">Анна И.</span> </div>
+                <p class="text-base mb-4" style="color: #6A6A6A;">
+                    Потрясающий сад! Очень красиво и ухоженно. Гид был замечательный, рассказал много интересного. Рекомендую всем!
+                </p>
+                <a href="#all-reviews" class="view-all-reviews-link-cat">
+                    Смотреть все отзывы
+                    <span class="arrow-icon-cat fas fa-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Function to fetch weather data
+        async function fetchWeatherData() {
+            const temperatureElement = document.getElementById('temperature-cat');
+            const weatherDescriptionElement = document.getElementById('weather-description-cat');
+            const weatherIconElement = document.getElementById('weather-icon-cat');
+
+            // ВАЖНО: Вам нужно заменить пустую строку на ваш действительный ключ API OpenWeatherMap.
+            // Получите свой ключ API здесь: https://openweathermap.org/api
+            const apiKey = '9966af9247ab4f97eb55cd6d29e201ce'; // <-- ВСТАВЬТЕ СЮДА ВАШ КЛЮЧ API OpenWeatherMap
+            const city = 'Pattaya';
+            const countryCode = 'TH';
+
+            if (!apiKey) {
+                console.error('OpenWeatherMap API Key is missing. Please insert your API key in the script.');
+                temperatureElement.textContent = '--°C';
+                weatherDescriptionElement.textContent = 'Нет ключа API';
+                weatherIconElement.className = 'fas fa-exclamation-triangle mr-2';
+                return; // Выходим из функции, если ключ API отсутствует
+            }
+
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&units=metric&lang=ru&appid=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    // Проверяем конкретно ошибку 401 Unauthorized
+                    if (response.status === 401) {
+                        throw new Error('Unauthorized: Invalid OpenWeatherMap API Key. Please check your API key.');
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                const temperature = Math.round(data.main.temp);
+                const description = data.weather[0].description;
+                const iconCode = data.weather[0].icon;
+
+                temperatureElement.textContent = `${temperature}°C`;
+                weatherDescriptionElement.textContent = description.charAt(0).toUpperCase() + description.slice(1); // Делаем первую букву заглавной
+
+                // Сопоставляем иконки OpenWeatherMap с иконками Font Awesome
+                let faIconClass = 'fas fa-question-circle'; // Иконка по умолчанию для неизвестного
+                if (iconCode.includes('01')) faIconClass = 'fas fa-sun'; // Ясное небо
+                else if (iconCode.includes('02')) faIconClass = 'fas fa-cloud-sun'; // Мало облаков
+                else if (iconCode.includes('03') || iconCode.includes('04')) faIconClass = 'fas fa-cloud'; // Рассеянные/разорванные облака
+                else if (iconCode.includes('09') || iconCode.includes('10')) faIconClass = 'fas fa-cloud-showers-heavy'; // Дождь
+                else if (iconCode.includes('11')) faIconClass = 'fas fa-bolt'; // Гроза
+                else if (iconCode.includes('13')) faIconClass = 'fas fa-snowflake'; // Снег
+                else if (iconCode.includes('50')) faIconClass = 'fas fa-smog'; // Туман
+
+                weatherIconElement.className = faIconClass + ' mr-2'; // Применяем новый класс иконки
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                temperatureElement.textContent = '--°C';
+                weatherDescriptionElement.textContent = 'Ошибка';
+                weatherIconElement.className = 'fas fa-exclamation-triangle mr-2'; // Иконка ошибки
+            }
+        }
+
+        // Загружаем данные о погоде при загрузке страницы
+        document.addEventListener('DOMContentLoaded', fetchWeatherData);
+    </script>
+
+    <title>Блок цены экскурсии</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+            width: 780px;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 14px;
+        }
+        
+        .stars {
+            color: #ffd700;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .price-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .price-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .price-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        
+        .price-option:last-child {
+            margin-bottom: 0;
+        }
+        
+        .price-label {
+            opacity: 0.9;
+        }
+        
+        .price-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 4px;
+        }
+        
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .qty-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        .qty-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .qty-value {
+            min-width: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .price-value {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .transfer-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .transfer-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .assistant-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .assistant-tooltip .tooltip-content {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: normal;
+            width: 320px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            line-height: 1.5;
+        }
+        
+        .assistant-tooltip:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .assistant-tooltip .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .date-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .date-section input[type="date"] {
+            color-scheme: dark;
+        }
+        
+        .date-section input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+        
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 3px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .transfer-text {
+            font-size: 15px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .payment-method {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .payment-method.selected {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .radio {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .radio.checked::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .payment-text {
+            flex: 1;
+        }
+        
+        .payment-main {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .payment-sub {
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .remaining-cost-info {
+            font-size: 15px;
+            font-weight: 500;
+            margin-top: 4px;
+            opacity: 1;
+        }
+        
+        .payment-price {
+            font-weight: 700;
+            color: #ffd700;
+            font-size: 20px;
+            margin-left: auto;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .booking-notice {
+            font-size: 14px;
+            text-align: center;
+            opacity: 0.9;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .btn {
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tooltip {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .installment-option {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #ffd700;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .installment-tooltip {
+            position: relative;
+            cursor: help;
+        }
+        
+        .installment-tooltip::after {
+            content: '?';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            text-align: center;
+            font-size: 10px;
+            line-height: 14px;
+        }
+        
+        .installment-tooltip .tooltip-text {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            white-space: normal;
+            width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            line-height: 1.4;
+        }
+        
+        .installment-tooltip:hover .tooltip-text {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .installment-tooltip .tooltip-text::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .tooltip-link {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+        
+        .total-display {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        @media (max-width: 820px) {
+            .price-card {
+                width: 100%;
+                max-width: 780px;
+            }
+            
+            .content {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+    </style>
+
+    <div class="price-card">
+        <div class="header">
+            <h2 class="title">Тропический сад Нонг Нуч Паттайя</h2>
+            <div class="rating">
+                <span class="stars">★★★★★</span>
+                <span>4.8 (16 отзывов)</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="left-section">
+                <div class="price-section">
+                    <div class="price-title">Выберите количество человек</div>
+                    <div class="price-option">
+                        <span class="price-label">Взрослый</span>
+                        <div class="price-controls">
+                            <div class="quantity-control">
+                                <button class="qty-btn" onclick="changeQuantity('adult', -1)">−</button>
+                                <span class="qty-value" id="adult-qty">1</span>
+                                <button class="qty-btn" onclick="changeQuantity('adult', 1)">+</button>
+                            </div>
+                            <span class="price-value">900฿</span>
+                        </div>
+                    </div>
+                    <div class="price-option">
+                        <span class="price-label">Детский (4-12 лет)</span>
+                        <div class="price-controls">
+                            <div class="quantity-control">
+                                <button class="qty-btn" onclick="changeQuantity('child', -1)">−</button>
+                                <span class="qty-value" id="child-qty">0</span>
+                                <button class="qty-btn" onclick="changeQuantity('child', 1)">+</button>
+                            </div>
+                            <span class="price-value">800฿</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transfer-section">
+                    <div class="transfer-option" onclick="togglePersonalAssistant()">
+                        <div class="checkbox" id="assistant-checkbox"></div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span class="transfer-text">Личный помощник +1 000₽</span>
+                        <div class="assistant-tooltip">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px; opacity: 0.7; cursor: help;">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                            <div class="tooltip-content">
+                                <strong>Путешествуете в Паттайю и не хотите тратить время на поиски информации?</strong> Мы всегда на связи и готовы помочь!<br><br>
+                                <strong>Что входит в услугу?</strong><br>
+                                • <strong>10 вопросов в день</strong> в течение <strong>3 дней</strong>.<br>
+                                • Общение в удобном мессенджере — <strong>WhatsApp или Telegram</strong>.<br>
+                                • Быстрые ответы — <strong>в течение 10 минут</strong>.<br>
+                                • Работаем ежедневно <strong>с 9:00 до 20:00</strong> по местному времени (МСК +4 часа).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="date-section">
+                    <label for="excursion-date" style="display: block; font-size: 15px; margin-bottom: 8px; opacity: 0.9;">Выберите дату экскурсии:</label>
+                    <input type="date" id="excursion-date" style="width: 100%; padding: 12px; border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.15); color: white; font-size: 15px; backdrop-filter: blur(10px);">
+                </div>
+                
+                <div class="total-display" id="total-display">
+                    Итого стоимость экскурсии: <span id="total-cost">900฿</span>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="payment-methods">
+                    <div class="payment-method" onclick="selectPayment('partial')">
+                        <div class="payment-option">
+                            <div class="radio" id="radio-partial"></div>
+                            <div class="payment-text">
+                                <div class="payment-main">Оплатить сейчас предоплату</div>
+                                <div class="payment-sub">
+                                    Комиссия нашего сервиса в рублях (<span id="commission-percent">25%</span>)<br>
+                                    <div class="remaining-cost-info">Оставшуюся сумму <span id="remaining-cost">650฿</span> оплатите гиду в день экскурсии</div>
+                                </div>
+                            </div>
+                            <div class="payment-price" id="partial-price">680₽</div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-method" onclick="selectPayment('full')">
+                        <div class="payment-option">
+                            <div class="radio" id="radio-full"></div>
+                            <div class="payment-text">
+                                <div class="payment-main">Оплатить сейчас всю сумму</div>
+                                <div class="payment-sub">
+                                    Полная стоимость в рублях
+                                    <div id="installment-info" class="installment-option"></div>
+                                </div>
+                            </div>
+                            <div class="payment-price" id="full-price">2 700₽</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <div class="booking-notice">
+                        Обязательно уточняйте в чате поддержки доступность экскурсии в выбранный вами день перед оплатой
+                    </div>
+                    <button class="btn btn-primary" onclick="bookNow()" id="book-btn">
+                        Забронировать сейчас
+                        <div class="tooltip" id="payment-tooltip">Выберите способ оплаты</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let quantities = {
+            adult: 1,
+            child: 0
+        };
+        let personalAssistantSelected = false;
+        let selectedPayment = null;
+        
+        const prices = {
+            adult: { baht: 900, rub: 2700, commission: 680 },
+            child: { baht: 800, rub: 2400, commission: 680 },
+            personalAssistant: 1000 // в рублях
+        };
+        
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+        
+        function formatCurrency(amount, currency) {
+            const formatted = formatNumber(amount);
+            return currency === 'rub' ? `${formatted}\u00A0₽` : `${formatted}${currency}`;
+        }
+        
+        function changeQuantity(type, delta) {
+            const newValue = quantities[type] + delta;
+            if (newValue >= 0 && newValue <= 10) {
+                quantities[type] = newValue;
+                document.getElementById(type + '-qty').textContent = newValue;
+                updatePrices();
+            }
+        }
+        
+        function togglePersonalAssistant() {
+            personalAssistantSelected = !personalAssistantSelected;
+            const checkbox = document.getElementById('assistant-checkbox');
+            if (personalAssistantSelected) {
+                checkbox.classList.add('checked');
+            } else {
+                checkbox.classList.remove('checked');
+            }
+            updatePrices();
+        }
+        
+        function calculateTotal() {
+            let totalBaht = quantities.adult * prices.adult.baht + quantities.child * prices.child.baht;
+            return totalBaht;
+        }
+        
+        function calculateCommission() {
+            let commission = quantities.adult * prices.adult.commission + quantities.child * prices.child.commission;
+            if (personalAssistantSelected) {
+                commission += prices.personalAssistant;
+            }
+            return commission;
+        }
+        
+        function calculateFullPrice() {
+            let fullPrice = quantities.adult * prices.adult.rub + quantities.child * prices.child.rub;
+            if (personalAssistantSelected) {
+                fullPrice += prices.personalAssistant;
+            }
+            return fullPrice;
+        }
+        
+        function calculateRemainingCost() {
+            const remainingAdult = quantities.adult * 650;
+            const remainingChild = quantities.child * 550;
+            const remainingTotal = remainingAdult + remainingChild;
+            return remainingTotal;
+        }
+        
+        function calculateCommissionPercent() {
+            const baseFullPrice = quantities.adult * prices.adult.rub + quantities.child * prices.child.rub;
+            const baseCommission = quantities.adult * prices.adult.commission + quantities.child * prices.child.commission;
+            return baseFullPrice > 0 ? Math.round((baseCommission / baseFullPrice) * 100) : 0;
+        }
+        
+        function updatePrices() {
+            const totalBaht = calculateTotal();
+            const commissionRub = calculateCommission();
+            const fullPriceRub = calculateFullPrice();
+            const commissionPercent = calculateCommissionPercent();
+            const remainingCost = calculateRemainingCost();
+            
+            document.getElementById('total-cost').textContent = `${totalBaht}฿`;
+            document.getElementById('partial-price').textContent = formatCurrency(commissionRub, 'rub');
+            document.getElementById('full-price').textContent = formatCurrency(fullPriceRub, 'rub');
+            document.getElementById('commission-percent').textContent = `${commissionPercent}%`;
+            document.getElementById('remaining-cost').textContent = `${remainingCost}฿`;
+            
+            // Обновляем информацию о рассрочке/долях
+            const installmentInfo = document.getElementById('installment-info');
+            if (fullPriceRub < 30000) {
+                installmentInfo.innerHTML = `
+                    Доступна оплата Долями 
+                    <span class="installment-tooltip">
+                        <div class="tooltip-text">
+                            Разделите сумму покупки на <strong>4 платежа</strong>, сделав ваше путешествие еще доступнее (услуга предоставляется Т-Банком). 
+                            <a href="https://ezyvizit.com/payment-rules" class="tooltip-link" target="_blank">Подробные условия</a>
+                        </div>
+                    </span>
+                `;
+            } else {
+                installmentInfo.innerHTML = 'Доступна оплата в рассрочку';
+            }
+        }
+        
+        function selectPayment(type) {
+            // Reset all radios
+            document.getElementById('radio-partial').classList.remove('checked');
+            document.getElementById('radio-full').classList.remove('checked');
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+            
+            // Set selected
+            selectedPayment = type;
+            document.getElementById('radio-' + type).classList.add('checked');
+            document.querySelector('.payment-method[onclick="selectPayment(\'' + type + '\')"]').classList.add('selected');
+        }
+        
+        function bookNow() {
+            const tooltip = document.getElementById('payment-tooltip');
+            
+            if (!selectedPayment) {
+                tooltip.classList.add('show');
+                setTimeout(() => {
+                    tooltip.classList.remove('show');
+                }, 3000);
+                return;
+            }
+            
+            const totalBaht = calculateTotal();
+            const commissionRub = calculateCommission();
+            const fullPriceRub = calculateFullPrice();
+            
+            if (selectedPayment === 'partial') {
+                const remainingAdult = quantities.adult * 650;
+                const remainingChild = quantities.child * 550;
+                const remainingTotal = remainingAdult + remainingChild;
+                alert(`Переход к оплате предоплаты: ${formatCurrency(commissionRub, 'rub')}\nОстальная сумма оплачивается гиду на месте: ${remainingTotal}฿`);
+            } else {
+                alert(`Переход к оплате полной стоимости: ${formatCurrency(fullPriceRub, 'rub')}`);
+            }
+        }
+        
+        // Initialize
+        updatePrices();
+    </script>
